@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parabens Padovan!</title>
+  <meta name="description" content="Homenagem pelos 13 anos do Padovan" />
+  <style>
+    :root{
+      --bg1: 255 99 132;
+      --bg2: 54 162 235;
+      --bg3: 255 206 86;
+      --card: 255 255 255;
+      --ink: 25 25 35;
+      --accent: 88 101 242; /* roxo/azul vivo */
+    }
+
+    /* Reset & base */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: rgb(var(--ink));
+      /* Fundo com gradiente animado */
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(var(--bg1),0.25), transparent 55%),
+                  radial-gradient(1000px 700px at 90% 20%, rgba(var(--bg2),0.25), transparent 60%),
+                  radial-gradient(1200px 900px at 50% 100%, rgba(var(--bg3),0.25), transparent 55%),
+                  linear-gradient(135deg, rgba(255,255,255,0.85), rgba(255,255,255,0.85));
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .stage{
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card{
+      width: min(820px, 96vw);
+      background: rgba(var(--card),0.85);
+      backdrop-filter: blur(10px) saturate(1.15);
+      -webkit-backdrop-filter: blur(10px) saturate(1.15);
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow:
+        0 30px 60px -15px rgba(0,0,0,0.25),
+        0 10px 20px -10px rgba(0,0,0,0.15);
+      border-radius: 28px;
+      padding: clamp(20px, 4vw, 40px);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate; /* para confetes ficarem atrás do conteúdo */
+    }
+
+    /* brilho decorativo */
+    .card::before{
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: conic-gradient(from 0deg,
+        rgba(var(--bg1),0.35),
+        rgba(var(--bg2),0.35),
+        rgba(var(--bg3),0.35),
+        rgba(var(--bg2),0.35),
+        rgba(var(--bg1),0.35)
+      );
+      filter: blur(30px) saturate(1.2);
+      z-index: -1;
+      animation: spin 16s linear infinite;
+    }
+    @keyframes spin{to{transform: rotate(1turn)}}
+
+    h1{
+      font-size: clamp(28px, 5vw, 56px);
+      line-height: 1.1;
+      margin: 4px 0 18px;
+      letter-spacing: 0.4px;
+      font-weight: 800;
+      background:
+        linear-gradient(90deg, rgb(var(--bg1)), rgb(var(--bg2)) 50%, rgb(var(--bg3)));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    .photo{
+      display:block;
+      width: min(420px, 85%);
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 0 auto 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 14px 30px -12px rgba(0,0,0,0.35);
+    }
+
+    .message{
+      font-size: clamp(14px, 2.6vw, 18px);
+      line-height: 1.6;
+      margin: 8px auto 24px;
+      color: rgb(45 45 60 / 0.95);
+      max-width: 58ch;
+    }
+
+    .cta{
+      display: inline-block;
+      --ring: 0 0 0 0 rgba(var(--accent), 0.6);
+      padding: 14px 22px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(var(--accent), 1), rgba(46,56,180,1));
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      box-shadow:
+        0 10px 24px -8px rgba(88,101,242,0.65),
+        0 2px 0 0 rgba(0,0,0,0.12) inset;
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+      position: relative;
+    }
+    .cta:hover{ transform: translateY(-2px); filter: brightness(1.02); }
+    .cta:active{ transform: translateY(0); }
+
+    /* brilho suave ao redor do botão */
+    .cta::after{
+      content:"";
+      position:absolute; inset:-6px; border-radius:inherit;
+      box-shadow: 0 0 0 0 rgba(88,101,242,.45);
+      animation: pulse 2.6s infinite ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes pulse{ 50%{ box-shadow: 0 0 0 14px rgba(88,101,242,.0);} }
+
+    /* Confetes simples usando gradientes repetidos */
+    .confetti{
+      position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.7;
+      background:
+        radial-gradient(2px 2px at 10% 20%, #ff5c8a 99%, transparent 100%),
+        radial-gradient(2px 2px at 20% 80%, #ffd166 99%, transparent 100%),
+        radial-gradient(2.2px 2.2px at 30% 40%, #5adbb5 99%, transparent 100%),
+        radial-gradient(1.8px 1.8px at 70% 30%, #6aa9ff 99%, transparent 100%),
+        radial-gradient(2.4px 2.4px at 85% 70%, #c77dff 99%, transparent 100%),
+        radial-gradient(2px 2px at 60% 90%, #ff8fab 99%, transparent 100%);
+      animation: drizzle 14s linear infinite;
+    }
+    @keyframes drizzle{
+      0%{ background-position: 0 0; }
+      100%{ background-position: 0 600px; }
+    }
+
+    /* Acessibilidade: foco visível no botão */
+    .cta:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(88,101,242,0.35), 0 10px 24px -8px rgba(88,101,242,0.65);
+    }
+
+    /* Modo escuro automático (opcional) */
+    @media (prefers-color-scheme: dark){
+      body{ background: radial-gradient(1000px 800px at 10% 10%, rgba(var(--bg1),0.18), transparent 55%),
+                          radial-gradient(1000px 800px at 90% 20%, rgba(var(--bg2),0.18), transparent 55%),
+                          radial-gradient(1200px 900px at 50% 100%, rgba(var(--bg3),0.18), transparent 55%),
+                          linear-gradient(135deg, #0e0f13, #141720); }
+      .card{ background: rgba(20,22,30,0.72); border-color: rgba(255,255,255,0.08); }
+      .message{ color: rgba(235,238,255,0.92); }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <section class="card" aria-labelledby="t">
+      <div class="confetti" aria-hidden="true"></div>
+
+      <h1 id="t">Parabens Padovan!</h1>
+
+      <!-- Coloque o arquivo padovan.png na MESMA pasta deste HTML -->
+      <img class="photo" src="padovan.png" alt="Foto do Padovan" />
+
+      <div class="message">
+        Parabéns pelos 13 anos Padovan! Tenho uma surpresa grande para você meu amigo
+      </div>
+
+      <a class="cta" href="https://www.roblox.com/pt/games/138801023403000/unnamed" target="_blank" rel="noopener">Abrir a Surpresa</a>
+    </section>
+  </main>
+</body>
+</html>
